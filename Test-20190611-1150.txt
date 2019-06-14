@@ -1,0 +1,105 @@
+access-list 150 permit ip host 10.131.128.74 any
+access-list 150 permit ip host 10.131.129.1 any
+access-list 150 permit ip host 10.131.129.2 any
+access-list 150 permit ip host 10.131.129.5 any
+access-list 150 permit ip host 10.131.129.6 any
+access-list 150 permit ip host 10.131.129.129 any
+access-list 150 permit ip host 10.131.129.130 any
+access-list 150 permit ip host 10.131.178.78 any
+access-list 150 permit ip host 10.131.178.206 any
+access-list 150 permit ip any host 10.38.2.244
+access-list 150 permit ip any host 10.131.128.12
+access-list 150 permit ip any host 10.131.128.24
+access-list 150 permit ip any host 10.131.128.32
+access-list 150 permit ip any host 10.131.128.45
+access-list 150 permit ip any host 10.131.128.54
+access-list 150 permit ip any host 10.131.128.60
+access-list 150 permit ip any host 10.131.128.62
+access-list 150 permit ip any host 10.131.128.67
+access-list 150 permit ip any host 10.131.128.69
+access-list 150 permit ip any host 10.131.128.70
+access-list 150 permit ip any host 10.131.128.71
+access-list 150 permit ip any host 10.131.128.78
+access-list 150 permit ip any host 10.131.128.85
+access-list 150 permit ip any host 10.131.128.88
+access-list 150 permit ip any host 10.131.128.89
+access-list 150 permit ip any host 10.131.128.90
+access-list 150 permit ip any host 10.131.128.102
+access-list 150 permit ip any host 10.131.128.113
+access-list 150 permit ip any host 10.131.128.116
+access-list 150 permit ip any host 10.131.128.125
+access-list 150 permit ip any host 10.131.128.132
+access-list 150 permit ip any host 10.131.128.133
+access-list 150 permit ip any host 10.131.128.145
+access-list 150 permit ip any host 10.131.128.147
+access-list 150 permit ip any host 10.131.128.148
+access-list 150 permit ip any host 10.131.128.150
+access-list 150 permit ip any host 10.131.128.168
+access-list 150 permit ip any host 10.131.128.177
+access-list 150 permit ip any host 10.131.128.178
+access-list 150 permit ip any host 10.131.128.208
+access-list 150 permit ip any host 10.131.128.209
+access-list 150 permit ip any host 10.131.128.210
+access-list 150 permit ip any host 10.131.128.211
+access-list 150 permit ip any host 10.131.128.212
+access-list 150 permit ip any host 10.131.128.213
+access-list 150 permit ip any host 10.131.128.219
+access-list 150 permit ip any host 10.131.128.223
+access-list 150 permit ip any host 10.131.128.226
+access-list 150 permit ip any host 10.131.135.144
+access-list 150 permit ip any host 10.131.145.109
+access-list 150 permit ip any host 10.131.170.250
+access-list 150 permit ip any host 10.131.178.34
+access-list 150 permit ip any host 10.131.178.51
+access-list 150 permit ip any host 10.131.178.53
+access-list 150 permit ip any host 10.131.178.62
+access-list 150 permit ip any host 10.131.178.74
+access-list 150 permit ip any host 10.131.178.76
+access-list 150 permit ip any host 10.131.178.86
+access-list 150 permit ip any host 10.131.178.87
+access-list 150 permit ip any host 10.131.178.88
+access-list 150 permit ip any host 10.131.178.98
+access-list 150 permit ip any host 10.131.178.103
+access-list 150 permit ip any host 10.131.178.109
+access-list 150 permit ip any host 10.131.178.132
+access-list 150 permit ip any host 10.131.178.137
+access-list 150 permit ip any host 10.131.178.140
+access-list 150 permit ip any host 10.131.178.149
+access-list 150 permit ip any host 10.131.178.170
+access-list 150 permit ip any host 10.131.178.171
+access-list 150 permit ip any host 10.131.178.180
+access-list 150 permit ip any host 10.131.178.187
+access-list 150 permit ip any host 10.131.178.188
+access-list 150 permit ip any host 10.131.178.210
+access-list 150 permit ip any host 10.131.178.212
+access-list 150 permit ip any host 10.131.180.188
+access-list 150 permit ip any host 10.131.180.190
+access-list 150 permit ip any host 10.198.36.253 
+access-list 150 permit ip any host 10.198.38.19
+access-list 150 permit ip any host 10.198.38.113
+access-list 150 permit ip any host 10.227.195.212
+access-list 150 permit ip any host 10.227.199.102
+access-list 150 permit ip any host 10.227.210.4
+access-list 150 permit ip any host 10.227.210.5
+access-list 150 permit ip any host 10.227.210.6
+access-list 150 permit ip any host 10.227.210.10
+access-list 150 permit ip any host 10.227.210.17
+access-list 150 permit ip any host 10.227.210.72
+access-list 150 permit ip any host 10.227.210.73
+access-list 150 permit ip any host 10.227.210.74
+access-list 150 permit ip any host 10.227.210.80
+access-list 150 permit ip any host 10.227.210.81
+access-list 150 permit ip any host 10.227.210.99
+access-list 150 permit ip any host 10.227.214.43
+access-list 150 permit ip any host 10.227.214.51
+access-list 150 permit ip any host 10.227.220.203
+access-list 150 permit ip any host 163.160.171.175
+access-list 150 deny   udp any any eq netbios-ns
+access-list 150 deny   udp any any eq netbios-dgm
+access-list 150 deny   tcp any any eq 139
+access-list 150 deny   tcp any any eq 445
+access-list 150 deny   udp any any eq 445
+access-list 150 deny   udp any any eq 16992
+access-list 150 deny   udp any any eq 16993
+access-list 150 permit ip any any
+access-list 150 remark Updated 11/06/2019 11:50
