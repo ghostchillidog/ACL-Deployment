@@ -71,6 +71,8 @@ running_acl = output_rem_array
 i = 0
 acl_update = []
 rule_match = False
+rule_match_end = False
+rule_match_run = False
 while i < len(end_acl)-1:
     if (end_acl[i] == running_acl[i][1]):
         print ("Line | {:3d} | Matching rule: {}".format(i,end_acl[i]))
@@ -78,25 +80,55 @@ while i < len(end_acl)-1:
     else:
         print ("Line | {:3d} | end_acl: {} || running_acl: {}".format(i,end_acl[i],running_acl[i][1]))
         try:
-#            rule_match = end_acl.index(running_acl[i-num_offset][1])
-            rule_match = index_2d(running_acl,end_acl[i])
-            if (rule_match):
-                matching_rule = running_acl[rule_match[0][0]
-                # Print command for debug
-                print ("Line | {:3d} | Found matching rule on line: {} | {}".format(i,rule_match,matching_rule))
-                if 
-                
+            rule_match_run = index_2d(running_acl,end_acl[i])
         except:
-                # Print command for debug
-                #print ("Line | {:3d} | Try execution path failed, new rule line.".format(i))
-                # Print command for debug
-                #print ("Line | {:3d} | Insert rule {} between {} and {}.".format(i,end_acl[i],running_acl[i-num_offset][0],running_acl[i-num_offset-1][0]))
-                if (running_acl[i][0]+1 < running_acl[i-1][0]):
-                    rule = str(running_acl[i-num_offset][0]+1) + " " + end_acl[i]
-                    acl_update.append(rule)
+            print ("!EXCEPTION - Line {} | Running Config".format(i))
+        try:
+            rule_match_end = end_acl.index(running_acl[i][1])
+        except:
+            print ("!EXCEPTION - Line {} | End Config".format(i))
+        print ("Line | {:3d} | End Location: {}  ||  Run Location {}".format(i,rule_match_end,rule_match_run))
+        if (rule_match_end == False):
+            print ("Line | {:3d} | Rule Match End".format(i))
+            if (rule_match_run != False):
+                removal = "no " +str(running_acl[rule_match_run][0])
+                acl_update.append(removal)
+                del(running_acl[rule_match_run[0]])
+        if (rule_match_run == False):
+            print ("Line | {:3d} | Rule Match Run".format(i))
+            if (rule_match_end != False):
+                prev_seq = running_acl[i-1][0]
+                new_seq = prev_seq + 1
+                if (running_acl[i][0]>new_seq):
+                    addition = str(new_seq) + " " + end_acl[i]
+                    acl_update.append(addition)
+                    running_acl.insert(i, [new_seq,end_acl[i]])
+        if ((rule_match_run != False) and (rule_match_end != False)):
+            prev_seq = running_acl[i-1][0]
+            new_seq = prev_seq + 1
+            addition = str(new_seq) + " " + end_acl[i]
+            removal = "no " +str(running_acl[rule_match_run[0]][0])
+            acl_update.append(removal)
+            acl_update.append(addition)
+            running_acl.insert(i, [new_seq,end_acl[i]])
+            del(running_acl[rule_match_run[0]])
+            i+=1
+        if (rule_match_run):
+            matching_rule = running_acl[rule_match_run[0]]
+            # Print command for debug
+            print ("Line | {:3d} | Found matching rule on line: {} | {}".format(i,rule_match_run,matching_rule))
+                
+                
+            # Print command for debug
+            #print ("Line | {:3d} | Try execution path failed, new rule line.".format(i))
+            # Print command for debug
+            #print ("Line | {:3d} | Insert rule {} between {} and {}.".format(i,end_acl[i],running_acl[i-num_offset][0],running_acl[i-num_offset-1][0]))
+            if (running_acl[i][0]+1 < running_acl[i-1][0]):
+                rule = str(running_acl[i][0]+1) + " " + end_acl[i]
+                acl_update.append(rule)
         rule_match = False
-        i+=1
-
+        rule_match_end = False
+        rule_match_run = False
 print (acl_update)
 
 num_offset = 0
