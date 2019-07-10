@@ -52,7 +52,7 @@ if (len(A)>len(B)):
                 except ValueError:
                     print ("{:3d} | Rule from B does not exist in A. Rule needs removing".format(i))
                 if (A_loc and B_loc):
-                    print("{:3d} | Lines not equal, but exist in both rules. Requires re-oder".format(i))
+                    print("{:3d} | Lines not equal, but exist in both rules. Requires re-oder. Old: {:3d} | New: {:3d}".format(i,B_loc[0],A_loc))
                 i+=1
                 A_loc = False
                 B_loc = False
@@ -63,13 +63,13 @@ else:
     print ("Updated ACL longer. Iterating on B")
 
 
-
-try:
-    mylist_loc = index_2d(B,A[8])
-except ValueError:
-    print ("ValueError raised. Text does not exist in array")
-
-if (mylist_loc):
-    print ("Text located at: {}".format(mylist_loc))
-    mylist_loc = False
+#
+#try:
+#    mylist_loc = index_2d(B,A[8])
+#except ValueError:
+#    print ("ValueError raised. Text does not exist in array")
+#
+#if (mylist_loc):
+#    print ("Text located at: {}".format(mylist_loc))
+#    mylist_loc = False
 
