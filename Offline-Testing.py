@@ -43,8 +43,14 @@ if (len(AA)>len(BB)):
             if ("remark" in A[i]):
                 print ("Skipping line - remark")
             print ("{} | Line mismatch. Testing Case".format(i))
-            loc_A = AA.index(BB[i][1])
-            loc_B = index_2d(BB,AA[i])
+            try:
+                loc_A = AA.index(BB[i][1])
+            except ValueError:
+                print ("")
+            try:
+                loc_B = index_2d(BB,AA[i])
+            except:
+                print ("")
             if (loc_A and loc_B):
                 print ("Line found in both arrays. Reorder")
                 print ("A: {} | B: {}".format(loc_A,loc_B[0]))
