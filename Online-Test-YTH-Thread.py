@@ -63,7 +63,7 @@ def resequence_acl(acl_name, start, increment):
     ios_cmd ="ip access-list resequence " + str(acl_name) + " " + str(start) + " " + str(increment)
     return (ios_cmd)
 
-def process_acl(connection, current_acl, new_acl):
+def process_acl(current_acl, new_acl):
     i=0
     A_loc = False
     B_loc = False
@@ -217,80 +217,140 @@ def process_acl(connection, current_acl, new_acl):
 #################################
 ## Read in test resultant ACL  ##
 #################################
-file = ".\\Test-20190612-1030.txt"
-acl_file = open(file,"r")
-new_acl = acl_file.read()
+#file = ".\\Test-20190612-1030.txt"
+#acl_file = open(file,"r")
+#new_acl = acl_file.read()
 #################################
 ## Define SSH connection to    ##
 ## test switch                 ##
 #################################
-ip = '192.168.6.243'
-ydh_pw = getpass("Enter SNS5000 password: ")
-ydh = {'device_type': 'cisco_ios', 'ip': ip, 'username': 'sns5000', 'password': ydh_pw, 'secret': ydh_pw, 'port': 22,}
-acl_name = 'SMB_ACL'
+#ip = '192.168.6.243'
+#ydh_pw = getpass("Enter SNS5000 password: ")
+#ydh = {'device_type': 'cisco_ios', 'ip': ip, 'username': 'sns5000', 'password': ydh_pw, 'secret': ydh_pw, 'port': 22,}
+#acl_name = 'SMB_ACL'
 #################################
 ## Connect to remote swtich    ##
 ## and enter enable mode       ##
 #################################
-remote_conn = ConnectHandler(**ydh)
-remote_conn.enable()
+#remote_conn = ConnectHandler(**ydh)
+#remote_conn.enable()
 #################################
 ## Call for ACL to be reseq    ##
 ## to expand number range and  ##
 ## reduce collisions in large  ##
 ## update/re-order             ##
 #################################
-ios_cmd = resequence_acl(acl_name, 10, 30)
-tresequence = datetime.now()
-result = remote_conn.send_config_set(ios_cmd)
-output = remote_conn.send_command_expect("show access-list " + str(acl_name))
-print("\nResequence elapsed time: " + str(datetime.now() - tresequence))
+#ios_cmd = resequence_acl(acl_name, 10, 30)
+#tresequence = datetime.now()
+#result = remote_conn.send_config_set(ios_cmd)
+#output = remote_conn.send_command_expect("show access-list " + str(acl_name))
+#print("\nResequence elapsed time: " + str(datetime.now() - tresequence))
 #################################
 ## Format ACL entities using   ##
 ## preconfigured subroutines   ##
 #################################
-A = format_acl(new_acl)
-B = format_output(output)
+#A = format_acl(new_acl)
+#B = format_output(output)
 #################################
 ## Test that remote connnect   ##
 ## is still connected [debug]  ##
 #################################
-if not (remote_conn.is_alive()):
-    remote_conn = ConnectHandler(**ydh)
+#if not (remote_conn.is_alive()):
+#    remote_conn = ConnectHandler(**ydh)
 #################################
 ## Make sure in enable mode    ##
 #################################
-remote_conn.enable()
+#remote_conn.enable()
 #################################
-tprocess = datetime.now()
-ios_cmds = process_acl(remote_conn, B, A)
-print("\nACL processing elapsed time: " + str(datetime.now() - tprocess))
-ios_cmds.insert(0, "ip access-list extended " + str(acl_name))
-tupdate_acl = datetime.now()
-result = remote_conn.send_config_set(ios_cmds)
-print("\nACL update elapsed time: " + str(datetime.now() - tupdate_acl))
-ios_cmd = resequence_acl(acl_name, 10, 10)
-tend_resequence = datetime.now()
-result = remote_conn.send_config_set(ios_cmd)
-print("\nFinal resequence elapsed time: " + str(datetime.now() - tend_resequence))
+#tprocess = datetime.now()
+#ios_cmds = process_acl(B, A)
+#print("\nACL processing elapsed time: " + str(datetime.now() - tprocess))
+#ios_cmds.insert(0, "ip access-list extended " + str(acl_name))
+#tupdate_acl = datetime.now()
+#result = remote_conn.send_config_set(ios_cmds)
+#print("\nACL update elapsed time: " + str(datetime.now() - tupdate_acl))
+#Get-NetworkControllerLoadBalancerMux
+#tend_resequence = datetime.now()
+#result = remote_conn.send_config_set(ios_cmd)
+#print("\nFinal resequence elapsed time: " + str(datetime.now() - tend_resequence))
 #################################
 ## Disconnect SSH session      ##
 #################################
-remote_conn.disconnect()
+#remote_conn.disconnect()
 #####################################
 ## Generate timestamp and format   ##
 #####################################
-tnow = datetime.now()
-print (tnow.strftime("%d/%m/%Y %H:%M"))
-print("\nElapsed time: " + str(datetime.now() - tstart))
+#tnow = datetime.now()
+#print (tnow.strftime("%d/%m/%Y %H:%M"))
+#print("\nElapsed time: " + str(datetime.now() - tstart))
 
-
+def getap(q,r,s,t, result, acl_template):
+    '''Execute show version command using Netmiko.'''
+    while not q.empty():
+        work = q.get()
+        site = r.get()
+        index = int(s.get())
+        acl = t.get()
+        lock = threading.Lock()
+        ios_cmd = []
+        ios_cmds = []
+        try:
+            remote_conn = ConnectHandler(**work)
+            switchprompt = remote_conn.find_prompt()[:-1]
+            print ("Processing {}. {} [{}]".format(index, switchprompt, work['ip']))
+            #switchprompt = "DebugSwitch"+str(index)
+            remote_conn.enable()
+            print ("Processing {}. Peforming ACL resequence.".format(switchprompt))
+            ios_cmd = resequence_acl(acl, 10, 30)
+            resquence_output = remote_conn.send_config_set(ios_cmd)
+            print ("Processing {}. Gathering running ACL.".format(switchprompt))
+            output = remote_conn.send_command_expect("show access-list " + str(acl))
+            print ("Processing {}. Formatting running ACL for processing.".format(switchprompt))
+            B = format_output(output)
+            ios_cmds = process_acl(B, acl_template)
+            print ("Processing {}. ACL processing completed.".format(switchprompt))
+            print ("Output:\n {}".format(ios_cmds))
+            if (len(ios_cmds) > 0):
+                ios_cmds.insert(0, "ip access-list extended " + str(acl))
+                ios_cmds.append(resequence_acl(acl, 10, 10))
+                print ("Processing {}. Peforming ACL updates.".format(switchprompt))
+                update_result = remote_conn.send_config_set(ios_cmds)
+                print ("Processing {}. Writing running-memory.".format(switchprompt))
+                remote_conn.send_command_expect("wr mem")
+                updated = True
+            else:
+                print ("Processing {}. No changes required.".format(switchprompt))
+                ios_cmds = resequence_acl(acl, 10, 10)
+                print ("Processing {}. Peforming ACL resequence to standard.".format(switchprompt))
+                update_result = remote_conn.send_config_set(ios_cmds)
+                print ("Processing {}. Writing running-memory.".format(switchprompt))
+                remote_conn.send_command_expect("wr mem")
+                updated = False
+            remote_conn.disconnect()
+            if (updated):
+                update = [work['ip'],switchprompt,acl,ios_cmds,updated,site]
+            else:
+                update = [work['ip'],switchprompt,acl,"No changes",updated,site]
+            
+        except:
+            update = [work['ip'],"Error","Error","Error","Error",site]
+            print("Error in connection for IP: {}".format(work['ip']))
+        lock.acquire()
+        try:
+            print ("Update:\n{}".format(update))
+            print ("Process: {}\nResult:\n{}".format(index,result))
+            result[index] = update
+        finally:
+            lock.release()
+        q.task_done()
+    return True
 
 def main():
     '''
     Use threads and Netmiko to connect to each of the devices. Execute
     'show version' on each device. Record the amount of time required to do this.
     '''
+    new_acl = format_acl(acl_template)
     results = [{} for x in devices]
     start_time = datetime.now()
     q = queue.Queue(maxsize=0)
@@ -308,12 +368,12 @@ def main():
         t.put(acl[i])
     #print ("Queue initiated size is: {}".format(q.qsize()))
     for i in range(num_theads):
-        worker = threading.Thread(target=getap, args=(q,r,s,t,results))
+        worker = threading.Thread(target=getap, args=(q,r,s,t,results,new_acl))
         worker.setDaemon(True)    #setting threads as "daemon" allows main program to 
                                   #exit eventually even if these dont finish 
                                   #correctly.
         worker.start()
-    #now we wait until the queue has been processed
+    #now we wait until the queue has been processed 
     q.join()
     ## Prepart CSV for import
     file=".\ACL_Update_Output.csv"
