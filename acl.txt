@@ -44,6 +44,7 @@ permit ip any host 10.131.128.211
 permit ip any host 10.131.128.212
 permit ip any host 10.131.128.213
 permit ip any host 10.131.128.219
+permit ip any host 10.131.128.222
 permit ip any host 10.131.128.223
 permit ip any host 10.131.128.226
 permit ip any host 10.131.135.144
@@ -74,7 +75,7 @@ permit ip any host 10.131.178.210
 permit ip any host 10.131.178.212
 permit ip any host 10.131.180.188
 permit ip any host 10.131.180.190
-permit ip any host 10.198.36.253
+permit ip any host 10.198.36.253 
 permit ip any host 10.198.38.19
 permit ip any host 10.198.38.113
 permit ip any host 10.227.195.212
@@ -93,6 +94,7 @@ permit ip any host 10.227.210.99
 permit ip any host 10.227.214.43
 permit ip any host 10.227.214.51
 permit ip any host 10.227.220.203
+permit ip any host 163.160.64.121
 permit ip any host 163.160.171.175
 deny udp any any eq netbios-ns
 deny udp any any eq netbios-dgm
@@ -102,4 +104,4 @@ deny udp any any eq 445
 deny udp any any eq 16992
 deny udp any any eq 16993
 permit ip any any
-remark Updated 12/06/2019 10:30
+remark Updated 16/07/2019 14:56

@@ -24,6 +24,9 @@ for row in datainput:
 	ip = row[0]
 	## No entry in CSV for site yet - default to York
 	if row[5] == 'YDH':
+		# Configuring a telnet connection - template
+		#{ 'device_type': 'cisco_ios_telnet', 'ip': ip, password='...', secret='...', 'port': 23)
+		#
 		ydh = {'device_type': 'cisco_ios', 'ip': ip, 'username': 'sns5000', 'password': ydh_pw, 'secret': ydh_pw, 'port': 22,}
 		device_acl.append(row[2])
 		device_list.append(ydh)

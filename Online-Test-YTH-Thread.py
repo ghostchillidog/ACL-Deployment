@@ -7,6 +7,7 @@ if sys.version_info[0] < 3:
 import csv
 import threading
 import queue
+from time import sleep
 from getpass import getpass
 from datetime import datetime
 from netmiko import ConnectHandler
@@ -298,32 +299,34 @@ def getap(q,r,s,t, result, acl_template):
             remote_conn = ConnectHandler(**work)
             switchprompt = remote_conn.find_prompt()[:-1]
             print ("Processing {}. {} [{}]".format(index, switchprompt, work['ip']))
+            sleep (2)
             #switchprompt = "DebugSwitch"+str(index)
             remote_conn.enable()
-            print ("Processing {}. Peforming ACL resequence.".format(switchprompt))
+            #print ("Processing {}. Peforming ACL resequence.".format(switchprompt))
             ios_cmd = resequence_acl(acl, 10, 30)
             resquence_output = remote_conn.send_config_set(ios_cmd)
-            print ("Processing {}. Gathering running ACL.".format(switchprompt))
+            #print ("Processing {}. Gathering running ACL.".format(switchprompt))
             output = remote_conn.send_command_expect("show access-list " + str(acl))
-            print ("Processing {}. Formatting running ACL for processing.".format(switchprompt))
+            #print ("Processing {}. Formatting running ACL for processing.".format(switchprompt))
             B = format_output(output)
             ios_cmds = process_acl(B, acl_template)
-            print ("Processing {}. ACL processing completed.".format(switchprompt))
-            print ("Output:\n {}".format(ios_cmds))
+            #print ("Processing {}. ACL processing completed.".format(switchprompt))
+            #print ("Output:\n {}".format(ios_cmds))
             if (len(ios_cmds) > 0):
                 ios_cmds.insert(0, "ip access-list extended " + str(acl))
                 ios_cmds.append(resequence_acl(acl, 10, 10))
-                print ("Processing {}. Peforming ACL updates.".format(switchprompt))
+                #print ("Processing {}. Peforming ACL updates.".format(switchprompt))
                 update_result = remote_conn.send_config_set(ios_cmds)
-                print ("Processing {}. Writing running-memory.".format(switchprompt))
+                #print ("Processing {}. Writing running-memory.".format(switchprompt))
+                sleep (2)
                 remote_conn.send_command_expect("wr mem")
                 updated = True
             else:
-                print ("Processing {}. No changes required.".format(switchprompt))
+                #print ("Processing {}. No changes required.".format(switchprompt))
                 ios_cmds = resequence_acl(acl, 10, 10)
-                print ("Processing {}. Peforming ACL resequence to standard.".format(switchprompt))
+                #print ("Processing {}. Peforming ACL resequence to standard.".format(switchprompt))
                 update_result = remote_conn.send_config_set(ios_cmds)
-                print ("Processing {}. Writing running-memory.".format(switchprompt))
+                #print ("Processing {}. Writing running-memory.".format(switchprompt))
                 remote_conn.send_command_expect("wr mem")
                 updated = False
             remote_conn.disconnect()
@@ -334,11 +337,11 @@ def getap(q,r,s,t, result, acl_template):
             
         except:
             update = [work['ip'],"Error","Error","Error","Error",site]
-            print("Error in connection for IP: {}".format(work['ip']))
+            #print("Error in connection for IP: {}".format(work['ip']))
         lock.acquire()
         try:
-            print ("Update:\n{}".format(update))
-            print ("Process: {}\nResult:\n{}".format(index,result))
+            #print ("Update:\n{}".format(update))
+            #print ("Process: {}\nResult:\n{}".format(index,result))
             result[index] = update
         finally:
             lock.release()
@@ -358,7 +361,7 @@ def main():
     s = queue.Queue(maxsize=0)
     t = queue.Queue(maxsize=0)
     # Use many threads (30 max, or one for each switch)
-    num_theads = min(10, len(devices))
+    num_theads = min(300, len(devices))
     for i in range(len(devices)):
         #need the index and the url in each queue item.
         #print("Queue initialised with: Device | {} | i | {} |".format((devices[i]), i))
@@ -376,7 +379,7 @@ def main():
     #now we wait until the queue has been processed 
     q.join()
     ## Prepart CSV for import
-    file=".\ACL_Update_Output.csv"
+    file=".\ACL_Update_Output-" + tstart.strftime("%Y%m%d-%H-%M-%S") + ".csv"
     with open(file, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writeheader()
