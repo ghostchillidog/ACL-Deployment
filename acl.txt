@@ -1,0 +1,107 @@
+permit ip host 10.131.128.74 any
+permit ip host 10.131.129.1 any
+permit ip host 10.131.129.2 any
+permit ip host 10.131.129.5 any
+permit ip host 10.131.129.6 any
+permit ip host 10.131.129.129 any
+permit ip host 10.131.129.130 any
+permit ip host 10.131.178.78 any
+permit ip host 10.131.178.206 any
+permit ip any host 10.38.2.244
+permit ip any host 10.131.128.12
+permit ip any host 10.131.128.24
+permit ip any host 10.131.128.32
+permit ip any host 10.131.128.45
+permit ip any host 10.131.128.54
+permit ip any host 10.131.128.60
+permit ip any host 10.131.128.62
+permit ip any host 10.131.128.67
+permit ip any host 10.131.128.69
+permit ip any host 10.131.128.70
+permit ip any host 10.131.128.71
+permit ip any host 10.131.128.78
+permit ip any host 10.131.128.85
+permit ip any host 10.131.128.88
+permit ip any host 10.131.128.89
+permit ip any host 10.131.128.90
+permit ip any host 10.131.128.102
+permit ip any host 10.131.128.113
+permit ip any host 10.131.128.116
+permit ip any host 10.131.128.125
+permit ip any host 10.131.128.132
+permit ip any host 10.131.128.133
+permit ip any host 10.131.128.145
+permit ip any host 10.131.128.147
+permit ip any host 10.131.128.148
+permit ip any host 10.131.128.150
+permit ip any host 10.131.128.168
+permit ip any host 10.131.128.177
+permit ip any host 10.131.128.178
+permit ip any host 10.131.128.208
+permit ip any host 10.131.128.209
+permit ip any host 10.131.128.210
+permit ip any host 10.131.128.211
+permit ip any host 10.131.128.212
+permit ip any host 10.131.128.213
+permit ip any host 10.131.128.219
+permit ip any host 10.131.128.222
+permit ip any host 10.131.128.223
+permit ip any host 10.131.128.226
+permit ip any host 10.131.135.144
+permit ip any host 10.131.145.109
+permit ip any host 10.131.170.250
+permit ip any host 10.131.178.34
+permit ip any host 10.131.178.51
+permit ip any host 10.131.178.53
+permit ip any host 10.131.178.62
+permit ip any host 10.131.178.74
+permit ip any host 10.131.178.76
+permit ip any host 10.131.178.86
+permit ip any host 10.131.178.87
+permit ip any host 10.131.178.88
+permit ip any host 10.131.178.98
+permit ip any host 10.131.178.103
+permit ip any host 10.131.178.109
+permit ip any host 10.131.178.132
+permit ip any host 10.131.178.137
+permit ip any host 10.131.178.140
+permit ip any host 10.131.178.149
+permit ip any host 10.131.178.170
+permit ip any host 10.131.178.171
+permit ip any host 10.131.178.180
+permit ip any host 10.131.178.187
+permit ip any host 10.131.178.188
+permit ip any host 10.131.178.210
+permit ip any host 10.131.178.212
+permit ip any host 10.131.180.188
+permit ip any host 10.131.180.190
+permit ip any host 10.198.36.253 
+permit ip any host 10.198.38.19
+permit ip any host 10.198.38.113
+permit ip any host 10.227.195.212
+permit ip any host 10.227.199.102
+permit ip any host 10.227.210.4
+permit ip any host 10.227.210.5
+permit ip any host 10.227.210.6
+permit ip any host 10.227.210.10
+permit ip any host 10.227.210.17
+permit ip any host 10.227.210.72
+permit ip any host 10.227.210.73
+permit ip any host 10.227.210.74
+permit ip any host 10.227.210.80
+permit ip any host 10.227.210.81
+permit ip any host 10.227.210.99
+permit ip any host 10.227.214.43
+permit ip any host 10.227.214.51
+permit ip any host 10.227.220.203
+permit ip any host 163.160.64.121
+permit ip any host 163.160.171.175
+deny udp any any eq netbios-ns
+deny udp any any eq netbios-dgm
+deny tcp any any eq 139
+deny tcp any any eq 445
+deny udp any any eq 445
+deny udp any any eq 16992
+deny udp any any eq 16993
+permit ip any any
+remark Updated 16/07/2019 14:56
